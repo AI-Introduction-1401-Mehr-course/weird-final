@@ -1,14 +1,17 @@
 from abc import ABC, abstractmethod
-from safe_typing import Tuple, Iterable
+from safe_typing import Tuple, Iterable, NamedTuple
 
 
 class CSP(ABC):
 
-    Variable = str | int
+    Variable = int
     Value = int
     Scope = Tuple[Variable, ...]
-    Relation = Iterable[Value]
-    Constraint = Tuple[Scope, Relation]
+    Relation = Iterable[Tuple[Value, ...]]
+
+    class Constraint(NamedTuple):
+        scope: "CSP.Scope"
+        relation: "CSP.Relation"
 
     @abstractmethod
     def X(self) -> Tuple[Variable]:

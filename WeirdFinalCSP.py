@@ -5,20 +5,17 @@ from safe_typing import Tuple, Iterable, List
 
 class WeirdFinalCSP(CSP):
     hall_count: int
-    group_count: int
     hall_group_candidates: Tuple[List[int]]
     hall_hall_exit_restrictions: Tuple[List[int]]
 
     def __init__(
         self,
         hall_count: int,
-        group_count: int,
         hall_group_candidates: Tuple[List[int]],
         hall_hall_exit_restrictions: Tuple[List[int]],
     ):
         super().__init__()
         self.hall_count = hall_count
-        self.group_count = group_count
         self.hall_group_candidates = hall_group_candidates
         self.hall_hall_exit_restrictions = hall_hall_exit_restrictions
 
@@ -46,12 +43,14 @@ class WeirdFinalCSP(CSP):
                         if i != j:
                             yield (i, j)
 
-        constraints = tuple()
+        constraints: Tuple[CSP.Constraint] = tuple()
 
-        for i in range(self.hall_count):
+        for from_hall in range(self.hall_count):
             constraints += tuple(
-                ((i, j), HallExitRestriction(i, j))
-                for j in self.hall_hall_exit_restrictions[i]
+                CSP.Constraint(
+                    (from_hall, to_hall), HallExitRestriction(from_hall, to_hall)
+                )
+                for to_hall in self.hall_hall_exit_restrictions[from_hall]
             )
 
         return constraints
