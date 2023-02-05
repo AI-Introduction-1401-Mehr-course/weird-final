@@ -50,7 +50,9 @@ class BackTrackingSearch:
 
     def forwardChecking(self, csp: WeirdFinalCSP, variable: int, value: int):
         new_csp = deepcopy(csp)
-        for var in csp.hall_hall_exit_restrictions[variable]:
+        for var in range(csp.hall_count):
+            if not (var in csp.hall_hall_exit_restrictions[variable] or variable in csp.hall_hall_exit_restrictions[var]):
+                continue
             new_group_candidate = []
             for val in csp.hall_group_candidates[var]:
                 if val != value:
