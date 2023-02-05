@@ -2,6 +2,7 @@ from WeirdFinalCSP import WeirdFinalCSP
 from serializer import csp_from_io
 import sys
 from BackTrack import BackTrackingSearch
+
 csp: WeirdFinalCSP
 
 
@@ -19,12 +20,9 @@ with open(sys.argv[1], "r") as f:
 
     bt = BackTrackingSearch()
 
-    result = bt.search(csp,{})
-    if(result!=None):
+    result = bt.search(csp, {})
+    if result != None:
         for i in range(csp.hall_count):
-            print(result[i]+1,end=' ')
+            print(result[i] + 1, end=" ")
     else:
         print("No")
-
-
-
